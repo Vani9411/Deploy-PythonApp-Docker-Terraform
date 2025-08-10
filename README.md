@@ -69,10 +69,9 @@ Docker Hub account
 
 📦 Step 1 — Build & Push Docker Image
 
-# Navigate to application directory
 cd app
 
-# Install dependencies locally (optional)
+Install dependencies locally (optional)
 pip install -r requirements.txt
 
 # Build Docker image
