@@ -1,148 +1,44 @@
-# Deploy-PythonApp-Docker-Terraform
-🚀 Deploying Python Application using Docker & Terraform
+# Demo app deployment
 
-📖 Project Overview
+Demo Python web app creation, dockerization and deployment on AWS. Using terraform for AWS resources creation and Nginx (installed and configured on EC2, as part of terraform) for High availability and  Load balancing.
 
-In this project, I deployed a Python web application in a containerized environment using Docker and automated the infrastructure provisioning with Terraform.
 
-The workflow implemented:
+#  The app
 
-Containerized the Python application with Docker
+Demo Python web app created using
 
-Pushed the Docker image to Docker Hub repository
+  - flask module
+  - flask serves a simple index.html
+  - Updated for Python3
 
-Provisioned an AWS EC2 instance using Terraform
+### Docker Image
+For simplicity, compatibility and maintainability, we can dockerize the app.
 
-Pulled and ran the Docker container automatically on the EC2 instance
+ - Lightweight - Built directly from python:3.9-slim 
+ - Tried and tested on ARM64 platforms
+  - Create docker image by running below command
+```sh
+$ cd sampleapp
+$ docker build -t demoapp .
+```
+  - App is managed and run  as non-root user inside the docker
+  - One can skip this step if required and use already Created and pushed image from dockerhub (Image name: yogeshvk1209/pywebapp2025). Image has port exposed on 8080
 
+#  The Deployment
 
-This setup follows Infrastructure as Code (IaC) principles to ensure deployment is repeatable, scalable, and easy to maintain.
+Terraform docker setup.
+  - Terraform docker setup Auto-Scaling groups with launch template and ALB frontend
+  - AMI being used is Alinux2023 ARM64.
+  - Outputs ALB Public DNS name
+  - To access webapp, use URL http://<ALB_Public_dns>
+  - Docker nodes can run multiple dockers at different port and nginx can be made to point them.
+  - Working with provider.aws = 5.90.0 and Terraform = 1.12.xx
 
+To run as is, run below commands
 
----
-
-🛠 Technology Stack
-
-Tool	Purpose
-
-Python 3.x	Application codebase
-Docker	Containerizing the application
-Terraform	Provisioning cloud infrastructure
-AWS EC2	Hosting environment
-Docker Hub	Storing Docker images
-
-
-
----
-
-📂 Project Structure
-
-├── app/
-│   ├── main.py               # Python application entry point
-│   ├── requirements.txt      # Dependencies
-├── Dockerfile                # Docker image configuration
-├── terraform/
-│   ├── main.tf               # Terraform configuration file
-│   ├── variables.tf          # Variables for Terraform
-│   ├── outputs.tf            # Outputs after provisioning
-│   ├── provision.sh          # Script to run the container in EC2
-├── README.md                 # Project documentation
-
-
----
-
-⚙️ Prerequisites
-
-Before running the project, ensure:
-
-Python 3.x installed locally
-
-Docker installed and running
-
-Terraform installed (v1.x or above)
-
-AWS account configured with CLI access
-
-Docker Hub account
-
----
-
-📦 Step 1 — Build & Push Docker Image
-
-cd app
-
-Install dependencies locally (optional)
-pip install -r requirements.txt
-
- Build Docker image
-docker build -t <dockerhub-username>/python-app:latest .
-
- Login to Docker Hub
-docker login
-
-Push the image to Docker Hub repository
-docker push <dockerhub-username>/python-app:latest
-
-
----
-
-🌍 Step 2 — Deploy with Terraform
-
- Navigate to Terraform configuration
-cd terraform
-
- Initialize Terraform
-terraform init
-
-Validate configuration
-terraform validate
-
-Review plan
-terraform plan
-
-Apply configuration
-terraform apply -auto-approve
-
-Terraform Actions:
-
-Creates an AWS EC2 instance
-
-Installs Docker on it
-
-Pulls the Docker image from Docker Hub
-
-Runs the Python application container
-
-
-
----
-
-🔍 Step 3 — Verify Deployment
-
-Retrieve Public IP from Terraform output
-
-Access in browser
-
----
-
-🧹 Step 4 — Destroy Infrastructure
-
-To avoid charges, clean up resources:
-
-terraform destroy -auto-approve
-
-
----
-
-
----
-
-📌 Key Learning
-
-Docker simplifies environment setup
-
-Terraform enables scalable cloud provisioning
-
-AWS EC2 provides reliable hosting
-
-Combining Docker & Terraform automates deployment workflows
+```sh
+$ cd terraform
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
