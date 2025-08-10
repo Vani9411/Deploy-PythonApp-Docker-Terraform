@@ -74,13 +74,13 @@ cd app
 Install dependencies locally (optional)
 pip install -r requirements.txt
 
-# Build Docker image
+ Build Docker image
 docker build -t <dockerhub-username>/python-app:latest .
 
-# Login to Docker Hub
+ Login to Docker Hub
 docker login
 
-# Push the image to Docker Hub repository
+Push the image to Docker Hub repository
 docker push <dockerhub-username>/python-app:latest
 
 
@@ -88,19 +88,19 @@ docker push <dockerhub-username>/python-app:latest
 
 🌍 Step 2 — Deploy with Terraform
 
-# Navigate to Terraform configuration
+ Navigate to Terraform configuration
 cd terraform
 
-# Initialize Terraform
+ Initialize Terraform
 terraform init
 
-# Validate configuration
+Validate configuration
 terraform validate
 
-# Review plan
+Review plan
 terraform plan
 
-# Apply configuration
+Apply configuration
 terraform apply -auto-approve
 
 Terraform Actions:
