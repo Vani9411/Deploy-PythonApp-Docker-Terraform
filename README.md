@@ -121,11 +121,7 @@ Runs the Python application container
 
 Retrieve Public IP from Terraform output
 
-Access in browser:
-
-
-http://<EC2-PUBLIC-IP>:<PORT>
-
+Access in browser
 
 ---
 
